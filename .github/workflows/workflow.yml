@@ -1,7 +1,7 @@
 name: build image
 on:
   push:
-    branches: web
+    branches: [web]
 
 
 permissions:
