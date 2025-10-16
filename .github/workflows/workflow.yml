@@ -1,43 +1,22 @@
-name: build image
+name: hello world
 on:
   push:
-    branches: [web]
-
-
-permissions:
-  contents: read
-  packages: write
+    branches: [test]
 
 jobs:
-  build:
-
+  hello_world:
     runs-on: ubuntu-latest
-
+    
     steps:
 
-      - name: Checkout del codigo
-        uses: actions/checkout@v5
+    - name: Clonar el repositorio
+      uses: actions/checkout@v3
 
-      - name: Preparar Buildx
-        uses: docker/setup-buildx-action@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
 
-      - name: Normalizar owner a minúsculas (GHCR)
-        run: echo "OWNER_LC=${OWNER,,}" >> $GITHUB_ENV
-        env:
-          OWNER: ${{ github.repository_owner }}
+    - run: pip install unittest
 
-      - name: Login a Github packages
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Construir y publicar la imagen docker
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/${{ env.OWNER_LC }}/web_app:latest,ghcr.io/${{ env.OWNER_LC }}/web_app:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+    - run: python main_test.py
+  
