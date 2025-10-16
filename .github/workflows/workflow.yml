@@ -16,7 +16,7 @@ jobs:
       with:
         python-version: '3.10'
 
-    - run: pip install -r requierements.txt
+    - run: pip install -r requirements.txt
 
     - run: python3 main_test.py
   
