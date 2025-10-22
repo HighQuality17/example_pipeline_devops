@@ -1,5 +1,12 @@
-FROM nginx:alphine
+From python:3.11-slim
 
-COPY index.html /usr/share/nginx/html/index.html
+WORKDIR /app
 
-EXPOSE 80
+COPY main.py /app/main.py
+COPY test.py /app/test.py
+
+RUN pip install flask
+
+EXPOSE 5000
+
+CMD ["python", "main.py"]
